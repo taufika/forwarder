@@ -33,7 +33,7 @@ app.use((req, res, next) => {
     //   ...headers,
     //   host: process.env[`${partner.toUpperCase()}_HOST`]
     // },
-    body,
+    data: body,
     params,
   })
     .then((result) => {
