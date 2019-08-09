@@ -17,15 +17,22 @@ app.use((req, res, next) => {
   }
   console.log('Incoming connection from', clientIp);
   console.log('Request path: ', originalUrl);
-  console.log(method, headers, params, body);
   console.log(`Forwarding to ${partner}`);
+  delete headers.host;
+  delete headers['postman-token'];
+  delete headers['cache-control'];
+  delete headers['accept-encoding'];
+  delete headers['connection'];
+  delete headers['content-length'];
+  console.log(method, headers, params, body);
   Axios({
     url: `${process.env[`${partner.toUpperCase()}_URL`]}${targetUrl}`,
     method,
-    headers: {
-      ...headers,
-      host: process.env[`${partner.toUpperCase()}_HOST`]
-    },
+    headers,
+    // headers: {
+    //   ...headers,
+    //   host: process.env[`${partner.toUpperCase()}_HOST`]
+    // },
     body,
     params,
   })
