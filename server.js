@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.use((req, res, next) => {
-  const { method, headers, params, body, originalUrl } = req;
+  const { method, headers, params, body, originalUrl, query } = req;
   const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   const partner = originalUrl.split('/')[1];
   const targetUrl = originalUrl.replace(`/${partner}/`, '');
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
   delete headers['accept-encoding'];
   delete headers['connection'];
   delete headers['content-length'];
-  console.log(method, headers, params, body);
+  console.log(method, headers, params, body, query);
   Axios({
     url: `${process.env[`${partner.toUpperCase()}_URL`]}${targetUrl}`,
     method,
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
     //   host: process.env[`${partner.toUpperCase()}_HOST`]
     // },
     data: body,
-    params,
+    params: query,
   })
     .then((result) => {
       // console.log(result);
