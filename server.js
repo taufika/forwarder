@@ -43,7 +43,9 @@ app.use((req, res, next) => {
     .then((result) => {
       // console.log('RESULT: ', result.data);
       console.info('SUCCESS');
-      res.set(result.headers);
+      if (method !== 'GET') {
+        res.set(result.headers);
+      }
       res.status(result.status).send(result.data);
     })
     .catch((e) => {
