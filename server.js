@@ -41,7 +41,8 @@ app.use((req, res, next) => {
     params: query,
   })
     .then((result) => {
-      console.log('RESULT: ', result.data);
+      // console.log('RESULT: ', result.data);
+      console.info('SUCCESS');
       res.set(result.headers);
       res.status(result.status).send(result.data);
     })
